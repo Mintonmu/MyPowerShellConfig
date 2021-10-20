@@ -1,4 +1,4 @@
-# Windows Prompt 
+# Windows Prompt
 
 本教程主要是针对Windows10-11系统上的PowerShell进行相关的易用性美化，本教程中的配置都是本人认为日常会用到的一些配置，下面开始正文：
 
