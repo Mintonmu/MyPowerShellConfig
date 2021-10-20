@@ -71,7 +71,7 @@ choco install oh-my-posh
 
 再次，Oh My Posh就算是安装完毕了，可以在`cmd`或者`PowerShell`输入*oh-my-posh.exe*进行测试，如果结果如下图所示，那么就代表安装成功了。
 
-![image-20211020212804644](Fimage-20211020212804644-16347364867261.png)
+![image-20211020212804644](./asserts/Fimage-20211020212804644-16347364867261.png)
 
 - 2.编写配置文件
 
