@@ -7,15 +7,52 @@ using namespace System.Management.Automation.Language
 # This is roughly what I use so there is some emphasis on emacs bindings,
 # but most of these bindings make sense in Windows mode as well.
 
-Import-Module PSReadLine
 Import-Module posh-git
-Import-Module -Name Terminal-Icons
+
 # Set-PSReadLineOption -EditMode Emacs
 Set-PSReadLineOption -EditMode Windows
-oh-my-posh --init --shell pwsh --config ./config.json | Invoke-Expression
-Enable-PoshTooltips
-Enable-PoshTransientPrompt
 
+
+if ($host.Name -eq 'ConsoleHost')
+{
+    Import-Module PSReadLine
+}
+#Import-Module PSColors
+#Import-Module posh-git
+Import-Module -Name Terminal-Icons
+Import-Module oh-my-posh
+# set-alias desktop "Desktop.ps1"
+# Set-Theme ParadoxGlucose
+Set-PoshPrompt -Theme sorin
+
+oh-my-posh --init --shell pwsh --config C:\Users\mintonmu\Documents\PowerShell\config.json | Invoke-Expression
+
+
+Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
+    param($wordToComplete, $commandAst, $cursorPosition)
+        [Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding = [System.Text.Utf8Encoding]::new()
+        $Local:word = $wordToComplete.Replace('"', '""')
+        $Local:ast = $commandAst.ToString().Replace('"', '""')
+        winget complete --word="$Local:word" --commandline "$Local:ast" --position $cursorPosition | ForEach-Object {
+            [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+        }
+}
+
+# PowerShell parameter completion shim for the dotnet CLI
+Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
+     param($commandName, $wordToComplete, $cursorPosition)
+         dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
+            [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+         }
+ }
+
+# ---
+
+
+# This is an example profile for PSReadLine.
+#
+# This is roughly what I use so there is some emphasis on emacs bindings,
+# but most of these bindings make sense in Windows mode as well.
 
 # Searching for commands with up/down arrow is really handy.  The
 # option "moves to end" is useful if you want the cursor at the end
@@ -23,10 +60,6 @@ Enable-PoshTransientPrompt
 # without that option, the cursor will remain at the position it was
 # when you used up arrow, which can be useful if you forget the exact
 # string you started the search on.
-Set-PSReadLineOption -PredictionSource History
-Set-PSReadLineOption -PredictionViewStyle ListView
-
-Set-PSReadLineOption -HistorySearchCursorMovesToEnd
 Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 
@@ -87,25 +120,6 @@ Set-PSReadLineKeyHandler -Key F7 `
     }
 }
 
-# This is an example of a macro that you might use to execute a command.
-# This will add the command to history.
-Set-PSReadLineKeyHandler -Key Ctrl+b `
-                         -BriefDescription BuildCurrentDirectory `
-                         -LongDescription "Build the current directory" `
-                         -ScriptBlock {
-    [Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
-    [Microsoft.PowerShell.PSConsoleReadLine]::Insert("msbuild")
-    [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
-}
-
-# In Emacs mode - Tab acts like in bash, but the Windows style completion
-# is still useful sometimes, so bind some keys so we can do both
-Set-PSReadLineKeyHandler -Key Ctrl+q -Function TabCompleteNext
-Set-PSReadLineKeyHandler -Key Ctrl+Q -Function TabCompletePrevious
-
-# Clipboard interaction is bound by default in Windows mode, but not Emacs mode.
-Set-PSReadLineKeyHandler -Key Ctrl+C -Function Copy
-Set-PSReadLineKeyHandler -Key Ctrl+v -Function Paste
 
 # CaptureScreen is good for blog posts or email showing a transaction
 # of what you did when asking for help or demonstrating a technique.
@@ -665,4 +679,30 @@ Set-PSReadLineKeyHandler -Key Alt+a `
     [Microsoft.PowerShell.PSConsoleReadLine]::SetCursorPosition($nextAst.Extent.StartOffset + $startOffsetAdjustment)
     [Microsoft.PowerShell.PSConsoleReadLine]::SetMark($null, $null)
     [Microsoft.PowerShell.PSConsoleReadLine]::SelectForwardChar($null, ($nextAst.Extent.EndOffset - $nextAst.Extent.StartOffset) - $endOffsetAdjustment)
+}
+
+
+Set-PSReadLineOption -PredictionSource History
+Set-PSReadLineOption -PredictionViewStyle ListView
+Set-PSReadLineOption -EditMode Windows
+
+
+# This is an example of a macro that you might use to execute a command.
+# This will add the command to history.
+Set-PSReadLineKeyHandler -Key Ctrl+Shift+b `
+                         -BriefDescription BuildCurrentDirectory `
+                         -LongDescription "Build the current directory" `
+                         -ScriptBlock {
+    [Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
+    [Microsoft.PowerShell.PSConsoleReadLine]::Insert("dotnet build")
+    [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
+}
+
+Set-PSReadLineKeyHandler -Key Ctrl+Shift+t `
+                         -BriefDescription BuildCurrentDirectory `
+                         -LongDescription "Build the current directory" `
+                         -ScriptBlock {
+    [Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
+    [Microsoft.PowerShell.PSConsoleReadLine]::Insert("dotnet test")
+    [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 }
