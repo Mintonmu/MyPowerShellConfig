@@ -13,10 +13,10 @@
 # Set-PSReadLineOption -EditMode Windows
 
 
-if ($host.Name -eq 'ConsoleHost')
-{
-    Import-Module PSReadLine
-}
+# if ($host.Name -eq 'ConsoleHost')
+# {
+#     Import-Module PSReadLine
+# }
 #Import-Module PSColors
 #Import-Module posh-git
 # Import-Module -Name Terminal-Icons
