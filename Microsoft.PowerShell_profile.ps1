@@ -1,9 +1,7 @@
-
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
 
 
-# Set-PSReadLineOption -EditMode Emacs
 Set-PSReadLineOption -EditMode Windows
 
 
@@ -16,7 +14,7 @@ Import-Module posh-git
 Import-Module -Name Terminal-Icons
 Import-Module oh-my-posh
 Import-Module PSWriteColor
-# 使用Posh预定义的配置文件，导出预定义配置文件
+# 使用Posh预定义的配置文件，导出预定义配置文件，如若用户不需要自定义配置则可执行18行命令即可，不需要再执行19和21行
 # Set-PoshPrompt -Theme craver 
 # Export-PoshTheme -FilePath "~/.mytheme.omp.json" -Format json 
 # 指定自己的配置文件
@@ -690,6 +688,3 @@ Set-PSReadLineOption -EditMode Windows
 #     [Microsoft.PowerShell.PSConsoleReadLine]::Insert("dotnet test")
 #     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 # }
-function make-link ($target, $link) {
-    New-Item -Path $link -ItemType SymbolicLink -Value $target
-}
