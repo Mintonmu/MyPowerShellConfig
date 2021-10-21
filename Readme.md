@@ -123,14 +123,20 @@ oh-my-posh --init --shell pwsh --config C:\Users\mintonmu\Documents\PowerShell\c
 ![image-20211020215251964](./asserts/Fimage-20211020215251964-16347379731005.png)
 
 这里提示我们还没有设定config文件，接下来我们就需要进行config文件的编辑了，config文件可以在我的github仓库中找到大家直接下载到本地把内容复制就可以了，编辑完毕config.json文件之后，我们需要==再执行一遍==：
-
 ```powershell
 . $PROFILE
 ```
+> 注意：如果用户不需要自定义config.json 文件，则不需要获取config文件，本教程主要偏向于DIY个人的配置文件向
 
 那么现在的效果就可以是如下图所示了:
 
 ![image-20211020215707561](./asserts/Fimage-20211020215707561.png)
 
 ![image-20211020215723561](./asserts/Fimage-20211020215723561.png)
+
+接下来我们需要安装文件目录图标，这样方便让我们更加容易分辨不同的文件类型，需要执行一下的命令完成安装操作：
+
+```powershell
+Install-Module -Name Terminal-Icons
+```
 
