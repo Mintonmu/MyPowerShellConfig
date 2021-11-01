@@ -6,9 +6,9 @@
 
 本教程在实践的时候统一使用`PowerShell 7` 作为配置的基底，所以并不完全适用于其他的Shell 进行相关的配置。最终配置效果如下图展示：
 
-[gif]
 
 
+![first](./asserts/first.gif)
 
 ### Step2:安装与配置
 
@@ -140,3 +140,54 @@ oh-my-posh --init --shell pwsh --config C:\Users\mintonmu\Documents\PowerShell\c
 Install-Module -Name Terminal-Icons
 ```
 
+完全成功之后，我们就可以使用Terminal-Icons模块了，接下来我们需要启用这个模块，需要编辑的配置文件是`Microsoft.PowerShell_profile.ps1`，编辑完毕之后就可以重新应用一次配置文件了：
+
+```powershell
+Import-Module -Name Terminal-Icons
+```
+
+```powershell
+. $PROFILE
+```
+
+效果如下图：
+
+![image-20211020215707561](./asserts/Snipaste_2021-11-01_22-08-08.png)
+
+最后，我们需要配置的是PSReadLine模块，这样我们可以自定义快捷键，比如可以定义为Windows或者Emacs类型的快捷键，首先我们还是先进行安装配置：
+
+```powershell
+Install-Module PSReadLine -AllowPrerelease -Force
+
+# Install-Module PSReadLine
+```
+
+安装完毕之后，我们同样需要在`Microsoft.PowerShell_profile.ps1`中进行编辑，添加如下行：
+
+```powershell
+if ($host.Name -eq 'ConsoleHost')
+{
+    Import-Module PSReadLine
+}
+```
+
+接下来，我们需要开始历史上下键索引选择的功能
+
+![](./asserts/Snipaste_2021-11-01_22-12-20.png)
+
+同时在配置文件中添加如下行，然后需要在终端中应用，或者开启新终端更新配置文件：
+
+```powershell
+Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
+```
+
+```powershell
+. $PROFILE
+```
+
+配置完毕之后的效果如下图所示：
+
+![](./asserts/Snipaste_2021-11-01_22-14-14.png)
+
+到这里我们配置就算基本完成了，如果后期有其他配置我会继续更新这个repo的，如果大家喜欢的话请持续关注我的哔哩哔哩频道哦~
