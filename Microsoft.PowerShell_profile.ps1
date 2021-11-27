@@ -688,3 +688,11 @@ Set-PSReadLineOption -EditMode Windows
 #     [Microsoft.PowerShell.PSConsoleReadLine]::Insert("dotnet test")
 #     [Microsoft.PowerShell.PSConsoleReadLine]::AcceptLine()
 # }
+# 增加一个每次登陆的诗句
+function hitokoto{
+    clear;
+    $hitokotoGetJson=Invoke-RestMethod -Method Get -Uri https://v1.hitokoto.cn -ContentType application/json;
+    $hitokotoResult = $hitokotoGetJson.hitokoto + "`n-《" +$hitokotoGetJson.from + "》" + $hitokotoGetJson.from_who;
+    $hitokotoResult;
+    date +"%A %d/%m/%Y %R:%S %p";
+}
