@@ -86,7 +86,7 @@ echo $PROFILE
 同时通过下列指令进入配置文件所在的目录：
 
 ```
-explorer.exe C:\User\mintonmu\Documents\PowerShell\
+explorer.exe C:\Users\mintonmu\Documents\PowerShell\
 ```
 
 ![image-20211020213754276](./asserts/Fimage-20211020213754276-16347370761153.png)
