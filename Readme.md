@@ -94,10 +94,8 @@ explorer.exe C:\Users\mintonmu\Documents\PowerShell\
 我们会发现当前目录下，并没有命令中显示的配置文件，此时我们需要自己进行新建可以自动手动新建一个修改成上述`Microsoft.PowerShell_profile.ps1`的名字即可，同时`config.json`也是相同的操作，也可以使用如下的命令，如下图所示：
 
 ```powershell
-New-Item -Path "C:\Users\mintonmu\Documents\PowerShell\
-touch\Microsoft.PowerShell_profile.ps1" -ItemType File
-New-Item -Path "C:\Users\mintonmu\Documents\PowerShell\
-touch\config.json" -ItemType File
+New-Item -Path "C:\Users\mintonmu\Documents\PowerShell\Microsoft.PowerShell_profile.ps1" -ItemType File
+New-Item -Path "C:\Users\mintonmu\Documents\PowerShell\config.json" -ItemType File
 ```
 
 
