@@ -1,7 +1,5 @@
 using namespace System.Management.Automation
 using namespace System.Management.Automation.Language
-
-
 Set-PSReadLineOption -EditMode Windows
 
 
@@ -13,12 +11,13 @@ if ($host.Name -eq 'ConsoleHost')
 Import-Module posh-git
 Import-Module -Name Terminal-Icons
 Import-Module oh-my-posh
-Import-Module PSWriteColor
+Import-Module cowsay
+# Import-Module PSWriteColor
 # 使用Posh预定义的配置文件，导出预定义配置文件，如若用户不需要自定义配置则可执行18行命令即可，不需要再执行19和21行
 # Set-PoshPrompt -Theme craver 
 # Export-PoshTheme -FilePath "~/.mytheme.omp.json" -Format json 
 # 指定自己的配置文件
-oh-my-posh --init --shell pwsh --config C:\Users\mintonmu\Documents\PowerShell\.mytheme.omp.json | Invoke-Expression
+oh-my-posh --init --shell pwsh --config C:\Users\mintonmu\Documents\PowerShell\config.json | Invoke-Expression
 
 
 Register-ArgumentCompleter -Native -CommandName winget -ScriptBlock {
@@ -104,7 +103,7 @@ Set-PSReadLineKeyHandler -Key F7 `
 
 
 # CaptureScreen is good for blog posts or email showing a transaction
-# of what you did when asking for help or demonstrating a technique.
+# of what you did when asking for help or demonsrating a technique.
 Set-PSReadLineKeyHandler -Chord 'Ctrl+d,Ctrl+c' -Function CaptureScreen
 
 # The built-in word movement uses character delimiters, but token based word
@@ -690,9 +689,8 @@ Set-PSReadLineOption -EditMode Windows
 # }
 # 增加一个每次登陆的诗句
 function hitokoto{
-    clear;
     $hitokotoGetJson=Invoke-RestMethod -Method Get -Uri https://v1.hitokoto.cn -ContentType application/json;
     $hitokotoResult = $hitokotoGetJson.hitokoto + "`n-《" +$hitokotoGetJson.from + "》" + $hitokotoGetJson.from_who;
-    $hitokotoResult;
-    date +"%A %d/%m/%Y %R:%S %p";
+    cowsay $hitokotoResult 
 }
+hitokoto
